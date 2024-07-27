@@ -1,20 +1,41 @@
-import React from 'react'
 import { Link } from "react-router-dom";
+import Nav from './Nav';
+import { useState } from "react";
+import { IoMenu } from "react-icons/io5";
+import { IoIosClose } from "react-icons/io";
 
 const Header = () => {
+  const [mostrarMenu, setMostrarMenu] = useState(false);
+
+  const menuToggle = () => {
+    setMostrarMenu(!mostrarMenu);
+  }
+
+
   return (
     <>
-      <header className="bg-custom-gradient p-4 text-white font-bold">
-        <Link to={"/"}><h1 className="text-3xl lg: lg:mb-4">Curriculum Vitae</h1></Link>
-        <div className="space-x-4 lg:space-x-8">
-          <Link className='border-b-2 border-b-transparent hover:text-blue-200 hover:border-b-white py-2' to="/">Sobre Mí</Link>
-          <Link className='border-b-2 border-b-transparent hover:text-blue-200 hover:border-b-white py-2' to="/skills">Habilidades</Link>
-          <Link className='border-b-2 border-b-transparent hover:text-blue-200 hover:border-b-white py-2' to="/experience">Experiencia</Link>
-          <Link className='border-b-2 border-b-transparent hover:text-blue-200 hover:border-b-white py-2' to="/education">Educación</Link>
-          <Link className='border-b-2 border-b-transparent hover:text-blue-200 hover:border-b-white py-2' to="/testimonials">Testimonios</Link>
-          <Link className='border-b-2 border-b-transparent hover:text-blue-200 hover:border-b-white py-2' to="/contact">Contacto</Link>
+      <header className="flex lg:flex-col items-center justify-center lg:gap-1 gap-4 bg-custom-gradient p-4 text-white font-bold">
+        <div className="text-center">
+          {mostrarMenu ? (
+            <>
+            <IoIosClose className="text-white text-2xl lg:hidden transition-transform 0.5 transform" onClick={menuToggle}/>
+            </>
+          ) : (
+            <IoMenu className="text-white text-2xl lg:hidden transform" onClick={menuToggle}/>
+          )}
+        </div>
+        <Link to={"/"}><h1 className="mx-auto text-3xl lg: lg:mb-4">Curriculum Vitae</h1></Link>
+        <div className="hidden lg:flex lg:justify-center">
+          <Nav />
         </div>
       </header>
+      {mostrarMenu && (
+      <div className="bg-custom-gradient h-screen z-50">
+        <Nav 
+          setMostrarMenu={setMostrarMenu}
+        />
+      </div>
+      )}
     </>
   )
 }
